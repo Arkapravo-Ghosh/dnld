@@ -9,6 +9,47 @@ display_help() {
     echo "down v1.0.5 Made by Arkapravo Ghosh"
 }
 
+# Function to install dependencies based on the platform
+install_dependencies() {
+    case "$OSTYPE" in
+        "linux-gnu"*)
+            if [[ -f /etc/debian_version ]]; then
+                sudo apt update && sudo apt full-upgrade -y
+                sudo apt install -y python3 ffmpeg libimage-exiftool-perl
+                pip3 install -U pip
+                pip3 install yt-dlp
+            elif [[ -f /etc/redhat-release ]]; then
+                sudo yum update -y
+                sudo yum install -y python3 ffmpeg perl-Image-ExifTool
+                pip3 install -U pip
+                pip3 install yt-dlp
+            fi
+            ;;
+        "darwin"*)
+            brew update
+            brew install python3 ffmpeg exiftool
+            pip3 install -U pip
+            pip3 install yt-dlp
+            ;;
+        "msys" | "cygwin" | "win32")
+            if [[ -f /etc/os-release ]]; then
+                sudo apt update && sudo apt full-upgrade -y
+                sudo apt install -y python3 ffmpeg libimage-exiftool-perl
+                pip3 install -U pip
+                pip3 install yt-dlp
+            else
+                echo "Please install dependencies manually on Windows."
+                echo "Dependencies: Python, ffmpeg, ExifTool, yt-dlp"
+                exit 1
+            fi
+            ;;
+        *)
+            echo "Unsupported OS: $OSTYPE"
+            exit 1
+            ;;
+    esac
+}
+
 download_video() {
     video_url="$1"
     download_dir="$HOME/downloads"
