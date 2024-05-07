@@ -15,6 +15,42 @@ download_file() {
     fi
 }
 
+# Function to install dependencies
+install_dependencies() {
+    case "$OSTYPE" in
+        "linux-gnu"*)
+            if command -v apt &> /dev/null; then
+                sudo apt update && sudo apt full-upgrade -y
+                sudo apt install -y python3 ffmpeg exiftool
+                python3 -m pip install -U pip
+                python3 -m pip install yt-dlp
+            else
+                echo "Error: Unsupported Linux package manager."
+                exit 1
+            fi
+            ;;
+        "darwin"*)
+            if command -v brew &> /dev/null; then
+                brew update
+                brew install python ffmpeg exiftool
+                pip3 install -U pip
+                pip3 install yt-dlp
+            else
+                echo "Error: Homebrew (brew) is required on macOS."
+                exit 1
+            fi
+            ;;
+        "msys" | "cygwin" | "win32")
+            echo "Error: Direct Windows support not implemented. Please use WSL."
+            exit 1
+            ;;
+        *)
+            echo "Unsupported OS: $OSTYPE"
+            exit 1
+            ;;
+    esac
+}
+
 # Determine the installation directory
 case "$OSTYPE" in
     "linux-gnu"*)
@@ -33,6 +69,9 @@ case "$OSTYPE" in
         exit 1
         ;;
 esac
+
+# Install dependencies
+install_dependencies
 
 # Download and install
 download_file "$install_file"
