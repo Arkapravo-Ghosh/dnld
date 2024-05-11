@@ -1,6 +1,7 @@
-# down
+# Down
 down is an Instagram Video Downloader for Termux
 > Source Code: [Click Here](src/main.sh)
+
 ## Demo
 <div align=center>
 <img src="docs/images/demo.png" width="1000px" alt="Demo">
@@ -13,6 +14,7 @@ down is an Instagram Video Downloader for Termux
 - exiftool
 - ffmpeg
 - termux-tools
+
 ## Installation
 ### Install Dependencies
 ```bash
@@ -27,6 +29,7 @@ termux-setup-storage
 curl -sSL https://raw.githubusercontent.com/Arkapravo-Ghosh/down/main/install.sh | bash
 ```
 > NOTE: To update, use this command again.
+
 ## Usage
 ```bash
 down -h
